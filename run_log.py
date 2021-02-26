@@ -71,15 +71,15 @@ def run_game(g, env_name, player_ids, actions_spaces, policy_list, render_mode):
     logger = get_logger(log_path, g.game_name, json_file=render_mode)
     random_path = os.path.dirname(os.path.abspath(__file__)) + "/examples/random/submission.py"
     myagent_path = os.path.dirname(os.path.abspath(__file__)) + "/examples/myagent/submission.py"
-    submission_path = os.path.dirname(os.path.abspath(__file__)) + "/examples/submissions/submission.py"
+    submission_path = os.path.dirname(os.path.abspath(__file__)) + "/examples/submissions/{}.py"
 
     for i in range(len(policy_list)):
         if policy_list[i] == "random":
             file_path = random_path
         elif policy_list[i] == "myagent":
             file_path = myagent_path
-        elif policy_list[i] == "submission":
-            file_path = submission_path
+        else:
+            file_path = submission_path.format(policy_list[i])
 
         import_path = '.'.join(file_path.split('/')[-3:])[:-3]
         function_name = 'm%d' % i
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     render_mode = True
 
     # 可选 random, myagent
-    policy_list = ["random", "submission"]
+    policy_list = ["random", "randomNumpy"]
 
     player_id, actions_space = get_players_and_action_space_list(game)
     run_game(game, env_type, player_id, actions_space, policy_list, render_mode)
